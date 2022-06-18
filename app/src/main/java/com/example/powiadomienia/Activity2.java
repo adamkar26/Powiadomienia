@@ -2,7 +2,12 @@ package com.example.powiadomienia;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.NotificationManager;
+import android.app.RemoteInput;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
 
 public class Activity2 extends AppCompatActivity {
 
@@ -10,5 +15,18 @@ public class Activity2 extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_2);
+
+        Intent intent = getIntent();
+        Bundle bundle = RemoteInput.getResultsFromIntent(intent);
+
+        if(bundle != null){
+            TextView textView = findViewById(R.id.textView);
+            String text = bundle.getString(MainActivity.klucz);
+            textView.setText(text);
+
+            NotificationManager notificationManager = (NotificationManager)
+                    getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.cancel(MainActivity.notificationId);
+        }
     }
 }
